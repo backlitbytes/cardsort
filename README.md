@@ -1,4 +1,6 @@
-Basically this should let you practice the skill of watching people sort cards and seeing what they may have in their hand
+Let's cheat at cards
+
+Basically this should let you practice the skill of watching people sort cards and understanding what they may have in their hand
 
 # Phase 0
 

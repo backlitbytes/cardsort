@@ -1,4 +1,26 @@
 <script lang="ts">
+  import { crossfade } from 'svelte/transition';
+  import { quintOut } from 'svelte/easing';
+  import { flip } from 'svelte/animate';
+
+  const [send, receive] = crossfade({
+    duration: (d) => Math.sqrt(d * 200),
+
+    fallback(node, params) {
+      const style = getComputedStyle(node);
+      const transform = style.transform === 'none' ? '' : style.transform;
+
+      return {
+        duration: 600,
+        easing: quintOut,
+        css: (t) => `
+          transform: ${transform} scale(${t});
+          opacity: ${t}
+        `
+      };
+    }
+  });
+
 	class Card {
 		name = $state('');
 		color = $state('');
@@ -34,7 +56,11 @@
 </script>
 
 {#snippet cardView(card)}
-  <button class="card" on:click={() => moveCard(card)} style:background-color={card.color}>
+  <button class="card" on:click={() => moveCard(card)} style:background-color={card.color}
+    in:receive={{ key: card.name }}
+    out:send={{ key: card.name }}
+    animate:flip={{ duration: 200 }}
+  >
     {card.name}
   </button>
 {/snippet}
